@@ -4,7 +4,7 @@ import json
 
 
 class YaUploader:
-    def __init__(self, token: str):
+    def __init__(self):
         self.token = input('Введите токен Полигона Яндекс.Диска: ')
         self.user_ID = input('Введите ID пользователя VC: ')
         self.yandex_folder = input('Введите имя яндекс-папки: ')
