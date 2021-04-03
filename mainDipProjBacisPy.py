@@ -9,6 +9,7 @@ class YaUploader:
         self.user_ID = input('Введите ID пользователя VC: ')
         self.yandex_folder = input('Введите имя яндекс-папки: ')
         self.coint_save = input('Введите порог выгрузки фото из VC (до 5 по умолчанию)(нажми Enter): ')
+        self.get_new_folder()
 
 
     def start_parse(self):
@@ -29,12 +30,12 @@ class YaUploader:
             'album_id': 'profile',
             'extended': '1',
             'photo_sizes': '1',
-            'access_token': '<token VC>', ###############################  TOKEN VC
+            'access_token': '<token>', ###############################  TOKEN VC
             'v': '5.107'
         }
         response = requests.get(link, params=params)
         if response.status_code != 200:
-            print('Неудача')
+            print('Неудача! Нет связи с сервером.')
 
         return response.json()
 
@@ -43,8 +44,11 @@ class YaUploader:
         """Метод парсит response vc"""
         count = 0
         if 'error' in self.get_requests():
-            print(f'Ошибка: Аккаунт ID:{self.user_ID} удален')
+            print(f'Ошибка: Аккаунт ID:{self.user_ID} недоступен')
+        elif self.get_requests()['response'].get('count', False) == 0:
+            print (f'Ошибка: На аккаунте ID:{self.user_ID} нет фотографий!')
         else:
+            # print(self.get_requests()['response'].get('count', False))
             for i in self.get_requests()['response']['items']:
                 if count < self.coint_save:
                     info = []
@@ -100,7 +104,6 @@ class YaUploader:
 if __name__ == '__main__':
 
     uploader = YaUploader()
-    uploader.get_new_folder()
     uploader.start_parse()
 
 
