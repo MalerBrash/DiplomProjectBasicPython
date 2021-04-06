@@ -5,6 +5,7 @@ import json
 
 class YaUploader:
     def __init__(self):
+        self.token_VK = input('Введите токен приложения VK: ')
         self.token = input('Введите токен Полигона Яндекс.Диска: ')
         self.user_ID = input('Введите ID пользователя VC: ')
         self.yandex_folder = input('Введите имя яндекс-папки: ')
@@ -30,7 +31,7 @@ class YaUploader:
             'album_id': 'profile',
             'extended': '1',
             'photo_sizes': '1',
-            'access_token': '<token>', ###############################  TOKEN VC
+            'access_token': self.token_VK,
             'v': '5.107'
         }
         response = requests.get(link, params=params)
@@ -41,7 +42,7 @@ class YaUploader:
 
 
     def parse_response(self):
-        """Метод парсит response vc"""
+        """Метод парсит response vk"""
         count = 0
         if 'error' in self.get_requests():
             print(f'Ошибка: Аккаунт ID:{self.user_ID} недоступен')
